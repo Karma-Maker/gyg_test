@@ -9,7 +9,7 @@ import retrofit2.http.Query
  */
 
 interface  GYGApi {
-    @GET("https://www.getyourguide.com/berlin-l17/tempelhof-2-hour-airport-history-tour-berlin-airlift-more-t23776/reviews.json")
+    @GET("berlin-l17/tempelhof-2-hour-airport-history-tour-berlin-airlift-more-t23776/reviews.json")
     fun getReviews(@Query("page") page: Int,
                    @Query("count") count: Int) : Call<GYGReviewListResponse>
 }

@@ -15,8 +15,10 @@ class LaunchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
-        list.adapter = ReviewsAdapter()
         list.layoutManager = LinearLayoutManager(this)
+        val adapter = ReviewsAdapter();
+        list.adapter = adapter
+        adapter.deleteMeInit()
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

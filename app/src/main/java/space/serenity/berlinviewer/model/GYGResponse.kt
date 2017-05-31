@@ -6,6 +6,12 @@ package space.serenity.berlinviewer.model
 
 data class GYGReviewListResponse (
         val status: Boolean,
-        val total_reviews: Float,
+        val total_reviews: Int,
         val data: List<Review>
+)
+
+
+data class RedditResponse (
+        val kind: String,
+        val data: Object
 )

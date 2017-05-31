@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import space.serenity.berlinviewer.R
 import space.serenity.berlinviewer.ui.binders.MyViewHolder
+import space.serenity.berlinviewer.ui.providers.ReviewsProvider
 
 
 /**
@@ -12,51 +13,28 @@ import space.serenity.berlinviewer.ui.binders.MyViewHolder
  */
 class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
-//    internal var items: List<*> = new List<items>
+    val provider = ReviewsProvider(this) // FIXME May leak !!!!! Event based ?
 
-    init {
-//        newsTeaserDelegate = NewsTeaserAdapterDelegate(VIEW_TYP_NEWS_TEASER)
-//        foodTipDelegate = PetFoodTipAdapterDelegate(VIEW_TYP_FOOD_TIP)
-    }
+    fun deleteMeInit(){
+        provider.init();
+    } //FIXME do as I said
 
     override fun getItemViewType(position: Int): Int {
-        return 1;
-
-//        if (newsTeaserDelegate.isForViewType(items, position)) {
-//            return newsTeaserDelegate.getViewType()
-//        } else if (foodTipDelegate.isForViewType(items, position)) {
-//            return foodTipDelegate.getViewType()
-//        }
-//
-//        throw IllegalArgumentException("No delegate found")
+        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val reviewLayout = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
         return MyViewHolder(reviewLayout)
-
-//        if (newsTeaserDelegate.getViewType() === viewType) {
-//            return newsTeaserDelegate.onCreateViewHolder(parent)
-//        } else if (foodTipDelegate.getViewType() === viewType) {
-//            return foodTipDelegate.onCreateViewHolder(parent)
-//        }
-
-//        throw IllegalArgumentException("No delegate found")
     }
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//        val viewType = holder.getViewType()
-//        if (ReviewBinder.getViewType() === viewType) {
-//            newsTeaserDelegate.onBindViewHolder(items, position, holder)
-//        } else if (foodTipDelegate.getViewType === viewType) {
-//            foodTipDelegate.onBindViewHolder(items, position, holder)
-//        }
-
+        holder.bind(provider.get(position))
     }
 
     override fun getItemCount(): Int {
-        return 12
+        return provider.count
     }
 }

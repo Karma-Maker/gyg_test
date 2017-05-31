@@ -8,27 +8,30 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import space.serenity.berlinviewer.model.GYGReviewListResponse;
 import space.serenity.berlinviewer.model.RestAPI;
+import space.serenity.berlinviewer.model.Review;
+import space.serenity.berlinviewer.ui.adapters.ReviewsAdapter;
 
 
 /**
  * Created by karmamaker on 03.10.15.
  */
 public class ReviewsProvider {
-    private List source = new ArrayList();
+    private List<Review> source = new ArrayList<>();
     public static final int PAGE_SIZE = 32; // This value should be received from server
     public static final int ITEMS_BEFORE_NEXT_REQUEST = 24; // This value should be received from server
     protected int dataPadding; // Number of items before first item in source
     protected int lastLoadedPageSize = PAGE_SIZE;
+    private ReviewsAdapter adapter;
 
-    RestAPI api = new RestAPI(); // BS
+    RestAPI api = new RestAPI(); // FIXME BS
 
-    public ReviewsProvider() {
-
+    public ReviewsProvider(ReviewsAdapter adapter) {
+        this.adapter = adapter;
     }
 
     protected Call<GYGReviewListResponse> currCall;
 
-    private void init() {
+    public void init() {
         clear();
         currCall = requestPage(0, PAGE_SIZE, getCallback());
     }
@@ -54,7 +57,9 @@ public class ReviewsProvider {
     }
 
     public Call<GYGReviewListResponse> requestPage(int pageNumber, int pageSize, Callback<GYGReviewListResponse> callback){
-        return api.getReviews(pageNumber, pageSize);
+        Call<GYGReviewListResponse> call = api.getReviews(pageNumber, pageSize);
+        call.enqueue(callback);
+        return call;
     }
 
     protected Callback<GYGReviewListResponse> getCallback() {
@@ -78,10 +83,10 @@ public class ReviewsProvider {
     }
 
     private void notifyDataSetChanged(){
-
+        adapter.notifyDataSetChanged();
     }
 
-    public Object get(int position) {
+    public Review get(int position) {
         int currentPage = (position + dataPadding) / PAGE_SIZE;
 
         if(shouldRequestNextPage(position)){

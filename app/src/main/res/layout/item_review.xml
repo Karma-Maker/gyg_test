@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_16"
         android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"/>
         android:layout_marginBottom="@dimen/margin_4"/>
 
     <RatingBar
@@ -34,8 +35,7 @@
         android:layout_below="@id/rating"
         android:layout_marginLeft="@dimen/margin_16"
         android:layout_marginRight="@dimen/margin_16"
-        android:layout_marginBottom="@dimen/margin_16"
-        android:minHeight="56dp"/>
+        android:layout_marginBottom="@dimen/margin_16" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Caption"

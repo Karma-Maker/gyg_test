@@ -2,6 +2,8 @@ package space.serenity.berlinviewer.ui.adapters
 
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import space.serenity.berlinviewer.R
 import space.serenity.berlinviewer.ui.binders.MyViewHolder
 
 
@@ -9,9 +11,6 @@ import space.serenity.berlinviewer.ui.binders.MyViewHolder
  * Created by karmamaker on 31/05/2017.
  */
 class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
-
-//    internal val VIEW_TYP_NEWS_TEASER = 0
-//    internal val VIEW_TYP_FOOD_TIP = 1
 
 //    internal var items: List<*> = new List<items>
 
@@ -34,7 +33,8 @@ class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        return MyViewHolder(parent)
+        val reviewLayout = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
+        return MyViewHolder(reviewLayout)
 
 //        if (newsTeaserDelegate.getViewType() === viewType) {
 //            return newsTeaserDelegate.onCreateViewHolder(parent)
@@ -53,6 +53,7 @@ class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
 //        } else if (foodTipDelegate.getViewType === viewType) {
 //            foodTipDelegate.onBindViewHolder(items, position, holder)
 //        }
+
     }
 
     override fun getItemCount(): Int {

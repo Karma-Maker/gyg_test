@@ -11,5 +11,5 @@ data class Review(
         val message: String,
         val date: String, // I am very suspicious about this field
         val author: String,
-        val languageCode: String
+        val reviewerCountry: String
 )

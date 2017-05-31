@@ -12,6 +12,9 @@ import space.serenity.berlinviewer.model.Review
 
 class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(review: Review){
+        itemView.title.text = Html.fromHtml(review.title) // New methods appears only in api 24
+        itemView.rating.rating = review.rating
         itemView.message.text = Html.fromHtml(review.message)
+        itemView.userData.text = "${review.author} - ${review.reviewerCountry} • ${review.date}" // I really think it's ok to leave it as it is without extracting format to string resources
     }
 }

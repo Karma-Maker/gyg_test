@@ -2,15 +2,49 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:layout_height="wrap_content">
 
     <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_4"/>
+
+    <RatingBar
+        style="?android:attr/ratingBarStyleSmall"
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_4"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:isIndicator="true" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:minHeight="56dp"
-        android:textColor="@android:color/white"/>
+        android:layout_below="@id/rating"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:minHeight="56dp"/>
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:id="@+id/userData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_below="@id/message" />
 
 </RelativeLayout>

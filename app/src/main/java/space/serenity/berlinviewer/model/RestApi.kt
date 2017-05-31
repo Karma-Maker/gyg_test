@@ -21,7 +21,7 @@ class RestAPI {
                 .protocols(Arrays.asList(Protocol.HTTP_1_1)).build()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://www.reddit.com/")
+                .baseUrl("https://www.getyourguide.com")
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(okHttpClient)
                 .build()

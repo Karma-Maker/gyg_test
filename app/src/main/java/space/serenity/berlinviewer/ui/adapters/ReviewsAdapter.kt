@@ -1,36 +1,42 @@
 package space.serenity.berlinviewer.ui.adapters
 
-import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import space.serenity.berlinviewer.R
-import space.serenity.berlinviewer.ui.binders.MyViewHolder
+import android.view.ViewGroup
+import space.serenity.berlinviewer.model.Review
+import space.serenity.berlinviewer.ui.binders.*
 import space.serenity.berlinviewer.ui.providers.ReviewsProvider
+import space.serenity.berlinviewer.ui.providers.ReviewsProvider.Companion.ITEM_NO_CONNECTION_FULLSCREEN
+import space.serenity.berlinviewer.ui.providers.ReviewsProvider.Companion.ITEM_NO_CONNECTION_SMALL
+import space.serenity.berlinviewer.ui.providers.ReviewsProvider.Companion.ITEM_NO_REVIEWS
 
 
 /**
  * Created by karmamaker on 31/05/2017.
  */
-class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
-
-    val provider = ReviewsProvider(this) // FIXME May leak !!!!! Event based ?
-
-    fun deleteMeInit(){
-        provider.init();
-    } //FIXME do as I said
-
+class ReviewsAdapter(val provider : ReviewsProvider) : RecyclerView.Adapter<Binder>() {
     override fun getItemViewType(position: Int): Int {
-        return 0
+        val item = provider.get(position)
+        when (item){
+            is Review -> return 1
+            ITEM_NO_REVIEWS -> return 2
+            ITEM_NO_CONNECTION_SMALL -> return 3
+            ITEM_NO_CONNECTION_FULLSCREEN -> return 4
+            else -> return 0
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-
-        val reviewLayout = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
-        return MyViewHolder(reviewLayout)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Binder {
+        when (viewType){
+            1 -> return ReviewBinder(parent)
+            2 -> return NoReviewsBinder(parent)
+            3 -> return NoConnectionSmallBinder(parent)
+            4 -> return NoConnectionFullscreenBinder(parent)
+            else -> return DefaultBinder(parent)
+        }
     }
 
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Binder, position: Int) {
         holder.bind(provider.get(position))
     }
 
@@ -38,3 +44,4 @@ class ReviewsAdapter : RecyclerView.Adapter<MyViewHolder>() {
         return provider.count
     }
 }
+

@@ -4,6 +4,8 @@ import okhttp3.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.util.*
 
 
@@ -30,18 +32,26 @@ class RestAPI {
     }
 
     fun getReviews(page: Int, count: Int): Call<GYGReviewListResponse> {
-        return gygApi.getReviews(page = page, count = count) // FIXME hardcode !!!
+        return gygApi.getReviews(page = page, count = count, sortBy = "date_of_review", direction = "DESC")
     }
+}
 
-    class HeaderInterceptor : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val request = chain.request()
-            val newRequest: Request
+interface  GYGApi {
+    @GET("berlin-l17/tempelhof-2-hour-airport-history-tour-berlin-airlift-more-t23776/reviews.json")
+    fun getReviews(@Query("page") page: Int,
+                   @Query("count") count: Int,
+                   @Query("sortBy") sortBy: String,
+                   @Query("direction") direction: String) : Call<GYGReviewListResponse>
+}
 
-            newRequest = request.newBuilder()
-                    .header("User-Agent", "not_ok_http")
-                    .build()
-            return chain.proceed(newRequest)
-        }
+class HeaderInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val newRequest: Request
+
+        newRequest = request.newBuilder()
+                .header("User-Agent", "not_ok_http") // I've got some questions
+                .build()
+        return chain.proceed(newRequest)
     }
 }

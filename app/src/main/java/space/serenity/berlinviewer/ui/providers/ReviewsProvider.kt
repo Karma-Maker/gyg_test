@@ -16,7 +16,7 @@ class ReviewsProvider() {
     protected var dataPadding: Int = 0 // Number of items before first item in source
     protected var lastLoadedPageSize = PAGE_SIZE
 
-    internal var api = RestAPI() // FIXME BS
+    internal var api = RestAPI()
     var dataSetChangeListener: () -> Unit = {}
     private var lastRequestFailed : Boolean = false
 

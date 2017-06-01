@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Title"
         android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_4"
         android:layout_marginLeft="@dimen/margin_16"
         android:layout_marginRight="@dimen/margin_16"
-        android:layout_marginTop="@dimen/margin_8"/>
-        android:layout_marginBottom="@dimen/margin_4"/>
+        android:layout_marginTop="@dimen/margin_8" />
 
     <RatingBar
-        style="?android:attr/ratingBarStyleSmall"
         android:id="@+id/rating"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
+        android:layout_marginBottom="@dimen/margin_4"
         android:layout_marginLeft="@dimen/margin_16"
         android:layout_marginRight="@dimen/margin_16"
-        android:layout_marginBottom="@dimen/margin_4"
+        android:isIndicator="true"
         android:numStars="5"
-        android:stepSize="0.5"
-        android:isIndicator="true" />
+        android:stepSize="0.5" />
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/message"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rating"
+        android:layout_marginBottom="@dimen/margin_16"
         android:layout_marginLeft="@dimen/margin_16"
-        android:layout_marginRight="@dimen/margin_16"
-        android:layout_marginBottom="@dimen/margin_16" />
+        android:layout_marginRight="@dimen/margin_16" />
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Caption"
         android:id="@+id/userData"
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
-        android:layout_marginRight="@dimen/margin_16"
+        android:layout_below="@id/message"
         android:layout_marginBottom="@dimen/margin_16"
-        android:layout_below="@id/message" />
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_16" />
 
 </RelativeLayout>

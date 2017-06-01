@@ -18,7 +18,7 @@ class ReviewsProvider() {
 
     internal var api = RestAPI()
     var dataSetChangeListener: () -> Unit = {}
-    private var lastRequestFailed : Boolean = false
+    private var lastRequestFailed: Boolean = false
 
 
     protected var currCall: Call<GYGReviewListResponse>? = null
@@ -33,7 +33,7 @@ class ReviewsProvider() {
         dataPadding = 0
         lastLoadedPageSize = PAGE_SIZE
         val savedCall = currCall
-        if(savedCall != null){
+        if (savedCall != null) {
             savedCall.cancel()
             currCall = null
         }
@@ -52,7 +52,7 @@ class ReviewsProvider() {
         get() = object : Callback<GYGReviewListResponse> {
             override fun onResponse(call: Call<GYGReviewListResponse>, response: Response<GYGReviewListResponse>) {
                 beforeResponse()
-                if(response.body() != null) {
+                if (response.body() != null) {
                     addPage(response.body().data)
                     onFinish()
                 } else {
@@ -63,7 +63,7 @@ class ReviewsProvider() {
 
             override fun onFailure(call: Call<GYGReviewListResponse>, t: Throwable) {
                 beforeResponse()
-                if(source.isEmpty()){
+                if (source.isEmpty()) {
                     source.add(ITEM_NO_CONNECTION_FULLSCREEN)
                 } else {
                     source.add(ITEM_NO_CONNECTION_SMALL)
@@ -78,7 +78,7 @@ class ReviewsProvider() {
                 notifyDataSetChanged()
             }
 
-            private fun beforeResponse(){
+            private fun beforeResponse() {
                 source.remove(ITEM_NO_CONNECTION_FULLSCREEN) // Not reliable but let it be for the time beeng
                 source.remove(ITEM_NO_CONNECTION_SMALL)
                 source.remove(ITEM_LOADING)

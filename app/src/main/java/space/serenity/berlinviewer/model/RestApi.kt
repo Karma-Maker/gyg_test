@@ -36,12 +36,12 @@ class RestAPI {
     }
 }
 
-interface  GYGApi {
+interface GYGApi {
     @GET("berlin-l17/tempelhof-2-hour-airport-history-tour-berlin-airlift-more-t23776/reviews.json")
     fun getReviews(@Query("page") page: Int,
                    @Query("count") count: Int,
                    @Query("sortBy") sortBy: String,
-                   @Query("direction") direction: String) : Call<GYGReviewListResponse>
+                   @Query("direction") direction: String): Call<GYGReviewListResponse>
 }
 
 class HeaderInterceptor : Interceptor {

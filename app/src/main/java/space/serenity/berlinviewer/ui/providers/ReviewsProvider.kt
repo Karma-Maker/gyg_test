@@ -1,14 +1,12 @@
 package space.serenity.berlinviewer.ui.providers
 
-import android.app.Notification
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import space.serenity.berlinviewer.model.GYGReviewListResponse
 import space.serenity.berlinviewer.model.RestAPI
 import space.serenity.berlinviewer.model.Review
-import space.serenity.berlinviewer.ui.adapters.ReviewsAdapter
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by karmamaker on 01/06/2017.
@@ -20,6 +18,7 @@ class ReviewsProvider() {
 
     internal var api = RestAPI() // FIXME BS
     var dataSetChangeListener: () -> Unit = {}
+    private var lastRequestFailed : Boolean = false
 
 
     protected var currCall: Call<GYGReviewListResponse>? = null
@@ -27,6 +26,7 @@ class ReviewsProvider() {
     fun init() {
         clear()
         currCall = requestPage(0, PAGE_SIZE, callback)
+        source.add(ITEM_LOADING_FULLSCREEN)
     }
 
     fun clear() {
@@ -51,29 +51,38 @@ class ReviewsProvider() {
     protected val callback: Callback<GYGReviewListResponse>
         get() = object : Callback<GYGReviewListResponse> {
             override fun onResponse(call: Call<GYGReviewListResponse>, response: Response<GYGReviewListResponse>) {
+                beforeResponse()
                 if(response.body() != null) {
                     addPage(response.body().data)
-                    notifyDataSetChanged()
-                    onFinish(call)
+                    onFinish()
                 } else {
                     onFailure(call, Throwable("Bad response from server"))
                 }
-
+                lastRequestFailed = false
             }
 
             override fun onFailure(call: Call<GYGReviewListResponse>, t: Throwable) {
-                if(isEmpty()){
-                    source.clear()
+                beforeResponse()
+                if(source.isEmpty()){
                     source.add(ITEM_NO_CONNECTION_FULLSCREEN)
                 } else {
                     source.add(ITEM_NO_CONNECTION_SMALL)
                 }
-                onFinish(call)
+                lastRequestFailed = true
+                onFinish()
+
             }
 
-            private fun onFinish(call: Call<GYGReviewListResponse>) {
+            private fun onFinish() {
                 currCall = null
+                notifyDataSetChanged()
+            }
+
+            private fun beforeResponse(){
+                source.remove(ITEM_NO_CONNECTION_FULLSCREEN) // Not reliable but let it be for the time beeng
+                source.remove(ITEM_NO_CONNECTION_SMALL)
                 source.remove(ITEM_LOADING)
+                source.remove(ITEM_LOADING_FULLSCREEN)
             }
         }
 
@@ -82,9 +91,15 @@ class ReviewsProvider() {
     }
 
     operator fun get(position: Int): Any {
-        val currentPage = 0 //(position + dataPadding) / PAGE_SIZE FIXME
+        val currentPage = (position + dataPadding) / PAGE_SIZE
 
-        if (shouldRequestNextPage(position)) {
+        if (!lastRequestFailed
+                && source.any { it is Review }
+                && currCall == null
+                && shouldRequestNextPage(position)) {
+            source.remove(ITEM_NO_CONNECTION_FULLSCREEN) // Not reliable but let it be for the time beeng
+            source.remove(ITEM_NO_CONNECTION_SMALL)
+            source.remove(ITEM_LOADING_FULLSCREEN)
             source.add(ITEM_LOADING)
             currCall = requestPage(currentPage + 1, PAGE_SIZE, callback)
         }
@@ -111,14 +126,11 @@ class ReviewsProvider() {
 
     }
 
-    fun isEmpty() : Boolean{
-        return !source.any({it is Review })
-    }
-
     companion object {
         val PAGE_SIZE = 32 // This value should be received from server
         val ITEMS_BEFORE_NEXT_REQUEST = 24 // This value should be received from server
         val ITEM_LOADING = "LOADING"
+        val ITEM_LOADING_FULLSCREEN = "LOADING_FULLSCREEN"
         val ITEM_NO_REVIEWS = "NO_REVIEWS"
         val ITEM_NO_CONNECTION_SMALL = "NO_CONNECTION_SMALL "
         val ITEM_NO_CONNECTION_FULLSCREEN = "NO_CONNECTION_FULLSCREEN"

@@ -38,7 +38,7 @@ class LaunchActivity : AppCompatActivity() {
         // fab
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "I haven\'t been able to finish this stuff, sorry ¯\\_ (ツ) _/¯", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
     }

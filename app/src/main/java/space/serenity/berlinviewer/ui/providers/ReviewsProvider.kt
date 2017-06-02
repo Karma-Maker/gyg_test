@@ -11,17 +11,18 @@ import java.util.*
 /**
  * Created by karmamaker on 01/06/2017.
  */
-class ReviewsProvider() {
+class ReviewsProvider {
     private val source = ArrayList<Any>()
-    protected var dataPadding: Int = 0 // Number of items before first item in source
-    protected var lastLoadedPageSize = PAGE_SIZE
+//    private val myReview : Review? = null
+    private var dataPadding: Int = 0 // Number of items before first item in source
+    private var lastLoadedPageSize = PAGE_SIZE
 
     internal var api = RestAPI()
     var dataSetChangeListener: () -> Unit = {}
     private var lastRequestFailed: Boolean = false
 
 
-    protected var currCall: Call<GYGReviewListResponse>? = null
+    private var currCall: Call<GYGReviewListResponse>? = null
 
     fun init() {
         clear()
@@ -39,16 +40,16 @@ class ReviewsProvider() {
         }
     }
 
-    val isFullyLoaded: Boolean
+    private val isFullyLoaded: Boolean
         get() = lastLoadedPageSize != PAGE_SIZE
 
-    fun requestPage(pageNumber: Int, pageSize: Int, callback: Callback<GYGReviewListResponse>): Call<GYGReviewListResponse> {
+    private fun requestPage(pageNumber: Int, pageSize: Int, callback: Callback<GYGReviewListResponse>): Call<GYGReviewListResponse> {
         val call = api.getReviews(pageNumber, pageSize)
         call.enqueue(callback)
         return call
     }
 
-    protected val callback: Callback<GYGReviewListResponse>
+    private val callback: Callback<GYGReviewListResponse>
         get() = object : Callback<GYGReviewListResponse> {
             override fun onResponse(call: Call<GYGReviewListResponse>, response: Response<GYGReviewListResponse>) {
                 beforeResponse()
@@ -115,7 +116,7 @@ class ReviewsProvider() {
                 && currCall == null
     }
 
-    fun addPage(loadedPage: MutableList<Review>) {
+    private fun addPage(loadedPage: MutableList<Review>) {
         lastLoadedPageSize = loadedPage.size
 
         val dataSizeWithDuplicates = loadedPage.size

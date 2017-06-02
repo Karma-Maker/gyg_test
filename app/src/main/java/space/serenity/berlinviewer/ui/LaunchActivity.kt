@@ -2,13 +2,12 @@ package space.serenity.berlinviewer.ui
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import space.serenity.berlinviewer.R
-import kotlinx.android.synthetic.main.activity_launch.*
-import space.serenity.berlinviewer.ui.adapters.ReviewsAdapter
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_launch.*
+import space.serenity.berlinviewer.R
+import space.serenity.berlinviewer.ui.adapters.ReviewsAdapter
 import space.serenity.berlinviewer.ui.providers.ReviewsProvider
 
 
@@ -37,10 +36,7 @@ class LaunchActivity : AppCompatActivity() {
 
         // fab
         val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "I haven\'t been able to finish this stuff, sorry ¯\\_ (ツ) _/¯", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        fab.setOnClickListener { view -> SubmitReviewDialog.show(this) }
     }
 
 
